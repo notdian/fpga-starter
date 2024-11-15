@@ -22,6 +22,14 @@ This command will provide all the necessary dependencies to execute the Makefile
 - **make**: Builds the project, including synthesis, placement, routing, and bitstream generation.
 - **make upload**: Writes the generated binary to the FPGA.
 
+## Simulation
+
+Rust-HDL also generates `sim.vcd` which can be viewed by [GTKWave](https://gtkwave.sourceforge.net/)
+
+```
+nix-shell -p gtkwave --run 'gtkwave build/sim.vcd'
+```
+
 ## License
 
 This project is released under the MIT License.
