@@ -31,9 +31,8 @@ struct SevenSegmentDisplay {
     mapping: Constant<Bits<70>>,
 }
 
-const CLOCK_SPEED_HZ: u64 = 25_000_000;
-impl Default for SevenSegmentDisplay {
-    fn default() -> Self {
+impl SevenSegmentDisplay {
+    fn new(clock_speed_hz: u64) -> Self {
         let mapping = {
             //   ABCDEFG
             let segments: [_; 10] = [
@@ -69,7 +68,7 @@ impl Default for SevenSegmentDisplay {
 
         Self {
             clock: Default::default(),
-            pulser: Pulser::new(CLOCK_SPEED_HZ, 0.2, Duration::from_millis(100)),
+            pulser: Pulser::new(clock_speed_hz, 1.0, Duration::from_millis(50)),
             internal_count: Default::default(),
             segment_state: Default::default(),
             button_prev: Default::default(),
@@ -126,8 +125,22 @@ impl Logic for SevenSegmentDisplay {
 }
 
 fn main() {
-    let mut display = SevenSegmentDisplay::default();
-
+    const CLOCK_SPEED_HZ: u64 = 25_000_000;
+    let mut display = SevenSegmentDisplay::new(CLOCK_SPEED_HZ);
     display.connect_all();
+    
+    {
+        const CLOCK_SPEED_HZ: u64 = 1000;
+        let display  = SevenSegmentDisplay::new(CLOCK_SPEED_HZ);
+        let mut sim = simple_sim!(SevenSegmentDisplay, clock, CLOCK_SPEED_HZ, ep, {
+            let mut x = ep.init()?;
+            wait_clock_cycles!(ep, clock, x, 4 * CLOCK_SPEED_HZ);
+            ep.done(x)
+        });
+
+        sim.run_to_file(Box::new(display), 5 * sim_time::ONE_SEC, "build/sim.vcd")
+            .unwrap();
+    }
+
     println!("{}", generate_verilog(&display));
 }
