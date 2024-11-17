@@ -1,6 +1,6 @@
 # FPGA Learning Project with Rust-HDL
 
-This repository is designed for learning FPGA development using Rust-HDL on the Nandland Go Board (iCE40HX1K VQ100). It includes Rust source files, a Makefile for automation, and a [go.pcf](go.pcf) constraint file to facilitate the design and programming process.
+This repository is designed for learning FPGA development using Rust-HDL on the [Nandland Go Board (iCE40HX1K VQ100)](https://nandland.com/the-go-board/). It includes Rust source files, a Makefile for automation, and a [go.pcf](go.pcf) constraint file to facilitate the design and programming process.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ This command will provide all the necessary dependencies to execute the Makefile
 Rust-HDL also generates `sim.vcd` which can be viewed by [GTKWave](https://gtkwave.sourceforge.net/)
 
 ```
-nix-shell -p gtkwave --run 'gtkwave build/sim.vcd'
+nix-shell -p gtkwave --run 'gtkwave build/sim.vcd
 ```
 
 ## License

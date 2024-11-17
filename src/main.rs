@@ -56,9 +56,8 @@ impl SevenSegmentDisplay {
                         .chars()
                         .rev()
                         // flip
-                        .map(|c| if c == '1' { '0' } else { '1' })
-                        .collect::<String>()
-                        .as_bytes(),
+                        .map(|c| if c == '1' { b'0' } else { b'1' })
+                        .collect::<Vec<_>>().as_slice(),
                     2,
                 )
                 .unwrap()
